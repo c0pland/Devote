@@ -18,6 +18,8 @@
 		2202EB3728E0C0F500F14A4B /* sound-tap.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2202EB3428E0C0F500F14A4B /* sound-tap.mp3 */; };
 		2226296D28E6269D000BDF1C /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2226296C28E6269D000BDF1C /* Constant.swift */; };
 		2226296F28E8BBFE000BDF1C /* HideKeyboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2226296E28E8BBFE000BDF1C /* HideKeyboardExtension.swift */; };
+		2226297528EC78F1000BDF1C /* NewTaskItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2226297428EC78F1000BDF1C /* NewTaskItemView.swift */; };
+		2226297728ED6FEF000BDF1C /* BlankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2226297628ED6FEF000BDF1C /* BlankView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		2202EB3E28E0DC4200F14A4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2226296C28E6269D000BDF1C /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		2226296E28E8BBFE000BDF1C /* HideKeyboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardExtension.swift; sourceTree = "<group>"; };
+		2226297428EC78F1000BDF1C /* NewTaskItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskItemView.swift; sourceTree = "<group>"; };
+		2226297628ED6FEF000BDF1C /* BlankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +106,8 @@
 			isa = PBXGroup;
 			children = (
 				2202EB2128E0C02C00F14A4B /* ContentView.swift */,
+				2226297428EC78F1000BDF1C /* NewTaskItemView.swift */,
+				2226297628ED6FEF000BDF1C /* BlankView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -211,10 +217,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2226297528EC78F1000BDF1C /* NewTaskItemView.swift in Sources */,
 				2202EB2928E0C02E00F14A4B /* Persistence.swift in Sources */,
 				2202EB2228E0C02C00F14A4B /* ContentView.swift in Sources */,
 				2226296F28E8BBFE000BDF1C /* HideKeyboardExtension.swift in Sources */,
 				2226296D28E6269D000BDF1C /* Constant.swift in Sources */,
+				2226297728ED6FEF000BDF1C /* BlankView.swift in Sources */,
 				2202EB2C28E0C02E00F14A4B /* Devote.xcdatamodeld in Sources */,
 				2202EB2028E0C02C00F14A4B /* DevoteApp.swift in Sources */,
 			);

@@ -11,9 +11,8 @@ import CoreData
 struct ContentView: View {
 	// MARK: Property
 	@State var taskName = ""
-	private var isButtonDisabled: Bool {
-		taskName.isEmpty
-	}
+	@State private var showNewTaskItem = false
+	
 	// MARK: Fetching data
 	@Environment(\.managedObjectContext) private var viewContext
 	
@@ -22,23 +21,6 @@ struct ContentView: View {
 		animation: .default)
 	private var items: FetchedResults<Item>
 	// MARK: Functions
-	private func addItem() {
-		withAnimation {
-			let newItem = Item(context: viewContext)
-			newItem.timestamp = Date()
-			newItem.task = taskName
-			newItem.completion = false
-			newItem.id = UUID()
-			do {
-				try viewContext.save()
-			} catch {
-				let nsError = error as NSError
-				fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-			}
-			taskName = ""
-			hideKeyboard()
-		}
-	}
 	
 	private func deleteItems(offsets: IndexSet) {
 		withAnimation {
@@ -56,40 +38,63 @@ struct ContentView: View {
 	}
 	var body: some View {
 		NavigationView {
-			VStack {
-				VStack(spacing: 16) {
-					TextField("New Task", text: $taskName)
-						.padding()
-						.background(Color(.systemGray6))
-						.cornerRadius(10)
+			ZStack {
+					// MARK: Main View
+				VStack {
+						// MARK: Header
+					Spacer(minLength: 80)
+						// MARK: New task button
 					Button {
-						addItem()
+						showNewTaskItem = true
 					} label: {
-						Spacer()
-						Text("Save")
-						Spacer()
+						Image(systemName: "plus.circle")
+							.font(.system(size: 30, weight: .semibold, design: .rounded))
+						Text("New task")
+							.font(.system(size: 24, weight: .bold, design: .rounded))
 					}
-					.padding()
-					.font(.headline)
 					.foregroundColor(.white)
-					.background(isButtonDisabled ? Color.gray : Color.pink)
-					.cornerRadius(10)
-					.disabled(isButtonDisabled)
-				}
-				.padding()
-				List {
-					ForEach(items) { item in
+					.padding(.horizontal, 20)
+					.padding(.vertical, 15)
+					.background(
+						LinearGradient(gradient: Gradient(colors: [Color.pink, Color.blue]), startPoint: .leading, endPoint: .trailing)
+							.clipShape(Capsule())
+					)
+					.shadow(color: .black, radius: 8, x: 0.0, y: 4.0)
+						// MARK: Tasks
+					
+					List {
+						ForEach(items) { item in
 							VStack(alignment: .leading) {
 								Text(item.task ?? "")
 									.font(.headline)
 									.fontWeight(.bold)
-								Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+								Text("\(item.timestamp!, formatter: itemFormatter)")
 									.font(.footnote)
 									.foregroundColor(.gray)
+							}
 						}
+						.onDelete(perform: deleteItems)
+						.listRowBackground(Color.clear)
 					}
-					.onDelete(perform: deleteItems)
+					// I've spent an hour to find this line...
+					.scrollContentBackground(.hidden)
+					.listStyle(InsetGroupedListStyle())
+					.padding(.vertical, 0)
+					.frame(maxWidth: 640)
 				}
+					// MARK: New task item
+				if showNewTaskItem {
+					BlankView()
+						.onTapGesture {
+							withAnimation {
+								showNewTaskItem = false
+							}
+						}
+					NewTaskItemView(isShowing: $showNewTaskItem)
+				}
+			}
+			.onAppear() {
+				UITableView.appearance().backgroundColor = UIColor.clear
 			}
 			.navigationTitle("Daily Tasks")
 			//navigationBarTitleDisplayMode(.large)
@@ -97,15 +102,13 @@ struct ContentView: View {
 				ToolbarItem(placement: .navigationBarTrailing) {
 					EditButton()
 				}
-				ToolbarItem(placement: .navigationBarTrailing) {
-					Button(action: addItem) {
-						Label("Add Item", systemImage: "plus")
-					}
-				}
 			}
+			.background(backgroundGradient.ignoresSafeArea(.all))
 		}
+		.navigationViewStyle(StackNavigationViewStyle())
 	}
 }
+
 struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {
 		ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
